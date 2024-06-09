@@ -32,8 +32,8 @@ function App() {
 
   //stats
   const totalTodos = todos.length;
-  let completedTodos = todos.filter((todo)=> todo.isComplete).length;
-  let activeTodos = todos.length - completedTodos;
+  const completedTodos = todos.filter((todo)=> todo.isComplete).length;
+  const activeTodos = todos.length - completedTodos;
   const completionRate = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
 
   if (todos.length === 0) {
@@ -56,8 +56,8 @@ function App() {
     const newTodos = todos.filter((todo) => todo.id !== todoId);
     setTodos(newTodos);
     console.log('Total todos after removing:', todos.length - 1);
-    completedTodos = todos.filter((todo)=> todo.isComplete).length;
-    activeTodos = todos.length - completedTodos;
+    // completedTodos = todos.filter((todo)=> todo.isComplete).length;
+    // activeTodos = todos.length - completedTodos;
   }
 
   function editTodoItem(todoId, title) {
@@ -85,8 +85,8 @@ function App() {
       return todo
     })
     setTodos(newTodos);
-    completedTodos = todos.filter((todo)=> todo.isComplete).length;
-    activeTodos = todos.length - completedTodos;
+    // completedTodos = todos.filter((todo)=> todo.isComplete).length;
+    // activeTodos = todos.length - completedTodos;
   }
 
   return (
