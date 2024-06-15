@@ -32,9 +32,11 @@ function AddTodoForm(props) {
           props.setTodos([...props.todos, newTodo]);
           console.log(props.todos);
           setNewTodoName("");
-          titleRef.current.focus();
         } catch (error) {
           console.error(error)
+        }
+        finally {
+          titleRef.current.focus();
         }
       }
 

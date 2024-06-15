@@ -11,11 +11,14 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [editTodoId, setEditTodoId] = useState(null);
   const [editTodoTitle, setEditTodoTitle] = useState("");
-  const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
     console.log("Hello");
   }, []);
+
+  useEffect(() => {
+    console.log(todos);
+  }, [todos]);
 
   const url = "http://localhost:8001/todos";
 
@@ -31,11 +34,6 @@ function App() {
   useEffect(() => {
     getTodos()
   }, [])
-
-  //to sync the filteredTodos whenever todos is rerender
-  useEffect(() => {
-    setFilteredTodos(todos); 
-  }, [todos]);
 
   //stats
   const totalTodos = todos.length;
@@ -100,38 +98,38 @@ function App() {
   }
 
   return (
-    <>
+    <div className="card">
       <TodoStatistics 
         totalTodos={totalTodos}
         completedTodos={completedTodos}
         activeTodos={activeTodos}
         completionRate= {completionRate}
         />
-        <Filter
-        todos={todos}
-        setFilteredTodos={setFilteredTodos}
-        />
-      <AddTodoForm 
-        todos={todos} 
-        setTodos={setTodos}
-        editTodoId={editTodoId}
-        setEditTodoId={setEditTodoId}
-        editTodoTitle={editTodoTitle}
-        setEditTodoTitle={setEditTodoTitle}
+        <AddTodoForm 
+          todos={todos} 
+          setTodos={setTodos}
+          editTodoId={editTodoId}
+          setEditTodoId={setEditTodoId}
+          editTodoTitle={editTodoTitle}
+          setEditTodoTitle={setEditTodoTitle}
         /> 
-      <TodoList 
-        todos={filteredTodos}
-        setTodos={setTodos}
-        editTodoId={editTodoId}
-        setEditTodoId={setEditTodoId}
-        editTodoTitle={editTodoTitle}
-        setEditTodoTitle={setEditTodoTitle}
-        removeTodoItem={removeTodoItem}
-        editTodoItem={editTodoItem}
-        saveTodoItem={saveTodoItem}
-        toggleIsComplete={toggleIsComplete}
-       /> 
-    </>
+        <Filter todos={todos}>
+        {filteredTodos => (
+          <TodoList
+            todos={filteredTodos}
+            setTodos={setTodos}
+            editTodoId={editTodoId}
+            setEditTodoId={setEditTodoId}
+            editTodoTitle={editTodoTitle}
+            setEditTodoTitle={setEditTodoTitle}
+            removeTodoItem={removeTodoItem}
+            editTodoItem={editTodoItem}
+            saveTodoItem={saveTodoItem}
+            toggleIsComplete={toggleIsComplete}
+          />
+        )}
+      </Filter>
+    </div>
   );
 }
 export default App;

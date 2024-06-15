@@ -5,7 +5,7 @@ function TodoItem(props) {
     return (
         <>
          <li key={props.id}>
-            <input type="checkbox" id={props.id} onChange={()=> props.toggleIsComplete(props.id)}/>
+            <input type="checkbox" id={props.id} checked={props.isComplete} onChange={()=> props.toggleIsComplete(props.id)}/>
             {props.editTodoId === props.id ? (
               <>
                 <input 
@@ -18,7 +18,7 @@ function TodoItem(props) {
               </>
             ) : (
               <>
-                <label htmlFor={props.id} className={props.isComplete ? "completed text-muted" : "undone"}>{props.title}</label>
+                <label htmlFor={props.id} className={props.isComplete ? "completed text-muted" : ""}>{props.title}</label>
                 <button type="button" onClick={() => props.editTodoItem(props.id, props.title)} className="edit-todo-button">Edit</button>
               </>
             )}

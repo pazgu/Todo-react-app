@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 
-function Filter(props) {
+function Filter({ todos, children }) {
   const [searchInput, setSearchInput] = useState('');
   const [filterByComplete, setFilterByComplete] = useState('all');
 
@@ -14,10 +14,10 @@ function Filter(props) {
     setFilterByComplete(event.target.value);
   };
 
-  const filterTodos = () => {
-    let filtered = props.todos;
+  const filteredTodos = useMemo(() => {
+    let filtered = todos;
     if (searchInput) {
-      filtered = filtered.filter(todo => 
+      filtered = filtered.filter(todo =>
         todo.title.toLowerCase().includes(searchInput.toLowerCase())
       );
     }
@@ -26,12 +26,8 @@ function Filter(props) {
     } else if (filterByComplete === 'incomplete') {
       filtered = filtered.filter(todo => !todo.isComplete);
     }
-    props.setFilteredTodos(filtered);
-  };
-
-  useEffect(() => {
-    filterTodos();
-  }, [searchInput, filterByComplete, props.todos]);
+    return filtered;
+  }, [searchInput, filterByComplete, todos]);
 
   return (
     <div className="filter-container">
@@ -42,15 +38,16 @@ function Filter(props) {
         onChange={handleSearch}
         className="filter-input"
       />
-      <select 
-        value={filterByComplete} 
-        onChange={handleFilterChange} 
+      <select
+        value={filterByComplete}
+        onChange={handleFilterChange}
         className="filter-select"
       >
         <option value="all">All</option>
         <option value="complete">Complete</option>
         <option value="incomplete">Incomplete</option>
       </select>
+      {children(filteredTodos)}
     </div>
   );
 }
