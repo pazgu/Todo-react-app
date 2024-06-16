@@ -20,7 +20,8 @@ function TodoList(props) {
          removeTodoItem={props.removeTodoItem}
          editTodoItem={props.editTodoItem}
          saveTodoItem={props.saveTodoItem}
-         toggleIsComplete={props.toggleIsComplete}   
+         toggleIsComplete={props.toggleIsComplete}
+         loading={props.loading}   
           />
         ))}
       </ul>

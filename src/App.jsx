@@ -5,10 +5,14 @@ import AddTodoForm from './components/AddTodoForm';
 import TodoStatistics from './components/TodoStatistics';
 import axios from 'axios';
 import Filter from './components/Filter';
+import Skeleton from '@mui/material/Skeleton';
+import Grid from '@mui/material/Grid';
+import Navbar from "./components/Navbar"
 
 function App() { 
 
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editTodoId, setEditTodoId] = useState(null);
   const [editTodoTitle, setEditTodoTitle] = useState("");
 
@@ -26,6 +30,7 @@ function App() {
     try {
       const response = await axios.get(url);
       setTodos(response.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -41,9 +46,9 @@ function App() {
   const activeTodos = todos.length - completedTodos;
   const completionRate = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
 
-  if (todos.length === 0) {
-    return <p>No todos available</p>
-  }
+  // if (todos.length === 0) {
+  //   return <p>No todos available</p>
+  // }
 
   async function removeTodoItem(todoId) {
     try {
@@ -98,38 +103,55 @@ function App() {
   }
 
   return (
-    <div className="card">
-      <TodoStatistics 
-        totalTodos={totalTodos}
-        completedTodos={completedTodos}
-        activeTodos={activeTodos}
-        completionRate= {completionRate}
-        />
-        <AddTodoForm 
-          todos={todos} 
-          setTodos={setTodos}
-          editTodoId={editTodoId}
-          setEditTodoId={setEditTodoId}
-          editTodoTitle={editTodoTitle}
-          setEditTodoTitle={setEditTodoTitle}
-        /> 
-        <Filter todos={todos}>
-        {filteredTodos => (
-          <TodoList
-            todos={filteredTodos}
-            setTodos={setTodos}
-            editTodoId={editTodoId}
-            setEditTodoId={setEditTodoId}
-            editTodoTitle={editTodoTitle}
-            setEditTodoTitle={setEditTodoTitle}
-            removeTodoItem={removeTodoItem}
-            editTodoItem={editTodoItem}
-            saveTodoItem={saveTodoItem}
-            toggleIsComplete={toggleIsComplete}
-          />
+    <>
+        {loading ? (
+           <Grid container spacing={2}>
+           <Grid item xs={12}>
+             <Skeleton width="100%" height={40} variant="text" animation="wave" />
+           </Grid>
+           <Grid item xs={12}>
+             <Skeleton width="100%" height={40} variant="text" animation="wave" />
+           </Grid>
+           <Grid item xs={12}>
+             <Skeleton width="100%" height={40} variant="text" animation="wave" />
+           </Grid>
+         </Grid>
+        ) : (
+          <>
+            <Navbar/>
+            <TodoStatistics 
+              totalTodos={totalTodos}
+              completedTodos={completedTodos}
+              activeTodos={activeTodos}
+              completionRate={completionRate}
+            />
+            <AddTodoForm 
+              todos={todos} 
+              setTodos={setTodos}
+              editTodoId={editTodoId}
+              setEditTodoId={setEditTodoId}
+              editTodoTitle={editTodoTitle}
+              setEditTodoTitle={setEditTodoTitle}
+            />
+            <Filter todos={todos}>
+              {filteredTodos => (
+                <TodoList
+                  todos={filteredTodos}
+                  setTodos={setTodos}
+                  editTodoId={editTodoId}
+                  setEditTodoId={setEditTodoId}
+                  editTodoTitle={editTodoTitle}
+                  setEditTodoTitle={setEditTodoTitle}
+                  removeTodoItem={removeTodoItem}
+                  editTodoItem={editTodoItem}
+                  saveTodoItem={saveTodoItem}
+                  toggleIsComplete={toggleIsComplete}
+                />
+              )}
+            </Filter>
+          </>
         )}
-      </Filter>
-    </div>
+    </>
   );
 }
 export default App;

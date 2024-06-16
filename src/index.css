@@ -1,3 +1,7 @@
+.statistics {
+ text-align: center;
+}
+
 .completed {
     text-decoration: line-through;
     color: #999;
@@ -7,115 +11,18 @@
     color: #999;
   }
   
-  .progress-bar {
-    background-color: #f0f0f0;
-    height: 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .progress-bar-inner {
-    background-color: #4caf50;
-    height: 100%;
-    border-radius: 5px;
-  }
-  
-  .app-title {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .add-todo-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4caf50;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-todo-button:hover {
-    background-color: #45a049;
-  }
-  
   .todo-list {
     list-style-type: none;
     padding: 0;
   }
-  
-  .edit-todo-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #2196f3;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-todo-button:hover {
-    background-color: #0d8bf1;
-  }
-  
-  .save-todo-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #4caf50;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .save-todo-button:hover {
-    background-color: #45a049;
-  }
-  
-  .remove-todo-button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ff5252;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .remove-todo-button:hover {
-    background-color: #ff1744;
-  }
-  
+
   .filter-container {
     display: flex;
     align-items: center;
-    gap: 10px; /* Adds space between the elements */
-    margin-bottom: 20px; /* Adds space below the filter section */
+    justify-content: 'center' ;
+    flex-direction: column;
+    gap: 2rem;
+    
   }
   
-  .filter-input {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  
-  .filter-input:focus {
-    border-color: #007bff; /* Changes border color on focus */
-  }
-  
-  .filter-select {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.3s;
-  }
-  
-  .filter-select:focus {
-    border-color: #007bff; /* Changes border color on focus */
-  }
+ 

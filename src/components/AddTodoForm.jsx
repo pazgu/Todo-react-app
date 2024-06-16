@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
+import TextField from '@mui/material/TextField';
+import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 
 function AddTodoForm(props) {
     const [newTodoTitle, setNewTodoName] = useState("");
@@ -27,7 +30,7 @@ function AddTodoForm(props) {
         try {
           const newTodo = {
             id: makeId(5),
-            title: titleRef.current.value,
+            title: newTodoTitle,
             isComplete: false
           };
           await axios.post("http://localhost:8001/todos", newTodo);
@@ -43,21 +46,35 @@ function AddTodoForm(props) {
       }
 
     return (
-        <>
-         <form onSubmit={createNewTodo}>
-        <input 
-          type="text" 
+      <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center', // Center horizontally
+        alignItems: 'center',
+        width: '100%', // Full width of the parent container
+        mt: 2, // Optional: margin-top for spacing from the top
+      }}
+    >
+      <Box component="form" onSubmit={createNewTodo} sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' , marginBottom: '2rem'}}>
+        <TextField 
+          label="Add todo"
+          id="fullWidth"
           value={newTodoTitle} 
           onChange={(ev) => setNewTodoName(ev.target.value)} 
-          className="todo-input" 
-          placeholder='add todo...'
+          placeholder="Add todo..."
           ref={titleRef}
+          sx={{ flex: 1 }} 
         />
-        <Button variant="contained" color="success">
-        <AddIcon/>
-      </Button>
-      </form>
-        </>
+        <Tooltip title="Add todo">
+          <Button type="submit" variant="contained" color="success" sx={{
+              height: '56px', 
+              minWidth: '56px' 
+            }}>
+            <AddIcon />
+          </Button>
+        </Tooltip>
+      </Box>
+    </Box>
     )
 }
 

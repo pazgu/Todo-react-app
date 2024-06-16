@@ -1,8 +1,14 @@
 /* eslint-disable react/prop-types */
 
 import { useState, useMemo } from 'react';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 function Filter({ todos, children }) {
+
   const [searchInput, setSearchInput] = useState('');
   const [filterByComplete, setFilterByComplete] = useState('all');
 
@@ -31,22 +37,29 @@ function Filter({ todos, children }) {
 
   return (
     <div className="filter-container">
-      <input
-        type="text"
-        placeholder="Search by title"
+      <TextField
+        id="filled-textarea"
+        label="Search by title"
+        placeholder="Search"
+        multiline
+        variant="filled"
         value={searchInput}
         onChange={handleSearch}
-        className="filter-input"
       />
-      <select
-        value={filterByComplete}
-        onChange={handleFilterChange}
-        className="filter-select"
-      >
-        <option value="all">All</option>
-        <option value="complete">Complete</option>
-        <option value="incomplete">Incomplete</option>
-      </select>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">All todos</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          label="All"
+          value={filterByComplete}
+          onChange={handleFilterChange}
+        >
+          <MenuItem value="all">All</MenuItem>
+          <MenuItem value="complete">Complete</MenuItem>
+          <MenuItem value="incomplete">Incomplete</MenuItem>
+        </Select>
+      </FormControl>
       {children(filteredTodos)}
     </div>
   );
