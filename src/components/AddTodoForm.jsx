@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 
 function AddTodoForm(props) {
     const [newTodoTitle, setNewTodoName] = useState("");
@@ -51,7 +53,9 @@ function AddTodoForm(props) {
           placeholder='add todo...'
           ref={titleRef}
         />
-        <button type="submit" className="add-todo-button">Add todo</button>
+        <Button variant="contained" color="success">
+        <AddIcon/>
+      </Button>
       </form>
         </>
     )

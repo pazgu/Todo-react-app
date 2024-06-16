@@ -1,4 +1,8 @@
 /* eslint-disable react/prop-types */
+import Button from '@mui/material/Button';
+import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function TodoItem(props) {
   
@@ -14,15 +18,21 @@ function TodoItem(props) {
                   onChange={(ev) => props.setEditTodoTitle(ev.target.value)} 
                   className="edit-todo-input" 
                 />
-                <button type="button" onClick={() => props.saveTodoItem(props.id)} className="save-todo-button">Save</button>
+                <Button variant="contained" color="success" type="button" onClick={() => props.saveTodoItem(props.id)}>
+                Save <SaveIcon/>
+              </Button>
               </>
             ) : (
               <>
                 <label htmlFor={props.id} className={props.isComplete ? "completed text-muted" : ""}>{props.title}</label>
-                <button type="button" onClick={() => props.editTodoItem(props.id, props.title)} className="edit-todo-button">Edit</button>
+                <Button variant="contained" size="medium" type="button" onClick={() => props.editTodoItem(props.id, props.title)}>
+                Edit <EditIcon/>
+              </Button>
               </>
             )}
-            <button type="button" onClick={() => props.removeTodoItem(props.id)} className="remove-todo-button">Remove</button>
+             <Button variant="outlined" color="error" type="button" onClick={() => props.removeTodoItem(props.id)}>
+              Remove <DeleteIcon/>
+            </Button>
           </li>
         </>
     )
