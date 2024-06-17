@@ -1,157 +1,28 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+import HomePage from './Pages/HomePage';
+import NotFoundPage from './Pages/NotFoundPage';
+import TodoDetailsPage from './Pages/TodoDetailsPage';
+import TodosPage from './Pages/TodosPage';
 import './index.css';
-import TodoList from './components/TodoList';
-import AddTodoForm from './components/AddTodoForm';
-import TodoStatistics from './components/TodoStatistics';
-import axios from 'axios';
-import Filter from './components/Filter';
-import Skeleton from '@mui/material/Skeleton';
-import Grid from '@mui/material/Grid';
+import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar"
+import CreateTodoPage from './Pages/CreateTodoPage';
 
 function App() { 
-
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [editTodoId, setEditTodoId] = useState(null);
-  const [editTodoTitle, setEditTodoTitle] = useState("");
-
-  useEffect(() => {
-    console.log("Hello");
-  }, []);
-
-  useEffect(() => {
-    console.log(todos);
-  }, [todos]);
-
-  const url = "http://localhost:8001/todos";
-
-  async function getTodos() {
-    try {
-      const response = await axios.get(url);
-      setTodos(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  useEffect(() => {
-    getTodos()
-  }, [])
-
-  //stats
-  const totalTodos = todos.length;
-  const completedTodos = todos.filter((todo)=> todo.isComplete).length;
-  const activeTodos = todos.length - completedTodos;
-  const completionRate = totalTodos > 0 ? (completedTodos / totalTodos) * 100 : 0;
-
-  // if (todos.length === 0) {
-  //   return <p>No todos available</p>
-  // }
-
-  async function removeTodoItem(todoId) {
-    try {
-      await axios.delete(`${url}/${todoId}`, todoId);
-      const newTodos = todos.filter((todo) => todo.id !== todoId);
-      setTodos(newTodos);
-      console.log(newTodos);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  function editTodoItem(todoId, title) {
-    setEditTodoId(todoId);
-    setEditTodoTitle(title);
-  }
-
-  async function saveTodoItem(todoId) {
-    try {
-      await axios.patch(`${url}/${todoId}`, {title: editTodoTitle}) 
-      const newTodos = todos.map((todo) => {
-        if (todo.id === todoId) {
-          return { ...todo, title: editTodoTitle };
-        }
-        return todo;
-      });
-      setTodos(newTodos);
-      setEditTodoId(null);
-      setEditTodoTitle("");
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  async function toggleIsComplete(todoId) {
-    let currentTodo = null;
-    try {
-      const newTodos = todos.map((todo) => {
-        if(todo.id === todoId) {
-          currentTodo = todo;
-          return {...todo, isComplete: !todo.isComplete}
-        } 
-        return todo
-      });
-      if (currentTodo) {
-        await axios.patch(`${url}/${todoId}`, {isComplete: !currentTodo.isComplete}) 
-      }
-      setTodos(newTodos);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   return (
     <>
-        {loading ? (
-           <Grid container spacing={2}>
-           <Grid item xs={12}>
-             <Skeleton width="100%" height={40} variant="text" animation="wave" />
-           </Grid>
-           <Grid item xs={12}>
-             <Skeleton width="100%" height={40} variant="text" animation="wave" />
-           </Grid>
-           <Grid item xs={12}>
-             <Skeleton width="100%" height={40} variant="text" animation="wave" />
-           </Grid>
-         </Grid>
-        ) : (
-          <>
-            <Navbar/>
-            <TodoStatistics 
-              totalTodos={totalTodos}
-              completedTodos={completedTodos}
-              activeTodos={activeTodos}
-              completionRate={completionRate}
-            />
-            <AddTodoForm 
-              todos={todos} 
-              setTodos={setTodos}
-              editTodoId={editTodoId}
-              setEditTodoId={setEditTodoId}
-              editTodoTitle={editTodoTitle}
-              setEditTodoTitle={setEditTodoTitle}
-            />
-            <Filter todos={todos}>
-              {filteredTodos => (
-                <TodoList
-                  todos={filteredTodos}
-                  setTodos={setTodos}
-                  editTodoId={editTodoId}
-                  setEditTodoId={setEditTodoId}
-                  editTodoTitle={editTodoTitle}
-                  setEditTodoTitle={setEditTodoTitle}
-                  removeTodoItem={removeTodoItem}
-                  editTodoItem={editTodoItem}
-                  saveTodoItem={saveTodoItem}
-                  toggleIsComplete={toggleIsComplete}
-                />
-              )}
-            </Filter>
-          </>
-        )}
+    <Navbar/>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/todos">
+        <Route index element={<TodosPage />} />
+          <Route path=":todoId" element={<TodoDetailsPage />} />
+          <Route path="create" element={<CreateTodoPage />} />
+        </Route>
+        <Route path="/*" element={<NotFoundPage />} />
+      </Routes>
     </>
   );
+
 }
 export default App;
