@@ -6,10 +6,12 @@ import AddIcon from '@mui/icons-material/Add';
 import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function AddTodoForm(props) {
     const [newTodoTitle, setNewTodoName] = useState("");
     const titleRef = useRef(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
       titleRef.current.focus();
@@ -33,6 +35,7 @@ function AddTodoForm(props) {
             title: newTodoTitle,
             isComplete: false
           };
+          setLoading(true);
           await axios.post("http://localhost:8001/todos", newTodo);
           props.setTodos([...props.todos, newTodo]);
           console.log(props.todos);
@@ -42,6 +45,7 @@ function AddTodoForm(props) {
         }
         finally {
           titleRef.current.focus();
+          setLoading(false);
         }
       }
 
@@ -49,15 +53,15 @@ function AddTodoForm(props) {
       <Box
       sx={{
         display: 'flex',
-        justifyContent: 'center', // Center horizontally
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '100%', // Full width of the parent container
-        mt: 2, // Optional: margin-top for spacing from the top
+        width: '100%', 
+        mt: 2, 
       }}
     >
       <Box component="form" onSubmit={createNewTodo} sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' , marginBottom: '2rem'}}>
         <TextField 
-          label="Add todo"
+          label="Add todo..."
           id="fullWidth"
           value={newTodoTitle} 
           onChange={(ev) => setNewTodoName(ev.target.value)} 
@@ -65,14 +69,19 @@ function AddTodoForm(props) {
           ref={titleRef}
           sx={{ flex: 1 }} 
         />
-        <Tooltip title="Add todo">
-          <Button type="submit" variant="contained" color="success" sx={{
-              height: '56px', 
-              minWidth: '56px' 
-            }}>
-            <AddIcon />
+      <Tooltip title="Add todo">
+        <span>
+          <Button
+            type="submit"
+            variant="contained"
+            color="success"
+            disabled={loading}
+            sx={{ height: '56px', minWidth: '56px' }}
+          >
+          {loading ? <CircularProgress /> : <AddIcon />}
           </Button>
-        </Tooltip>
+        </span>
+      </Tooltip>
       </Box>
     </Box>
     )
