@@ -6,14 +6,17 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import {useSearchParams } from "react-router-dom";
 
 function Filter({ todos, children }) {
 
-  const [searchInput, setSearchInput] = useState('');
   const [filterByComplete, setFilterByComplete] = useState('all');
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filterValue = searchParams.get('q') || '';
+
   const handleSearch = (event) => {
-    setSearchInput(event.target.value);
+    setSearchParams({ q: event.target.value });
   };
 
   const handleFilterChange = (event) => {
@@ -22,9 +25,9 @@ function Filter({ todos, children }) {
 
   const filteredTodos = useMemo(() => {
     let filtered = todos;
-    if (searchInput) {
+    if (filterValue) {
       filtered = filtered.filter(todo =>
-        todo.title.toLowerCase().includes(searchInput.toLowerCase())
+        todo.title.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (filterByComplete === 'complete') {
@@ -33,7 +36,7 @@ function Filter({ todos, children }) {
       filtered = filtered.filter(todo => !todo.isComplete);
     }
     return filtered;
-  }, [searchInput, filterByComplete, todos]);
+  }, [searchParams, filterByComplete, todos]);
 
   return (
     <div className="filter-container">
@@ -43,7 +46,7 @@ function Filter({ todos, children }) {
         placeholder="Search"
         multiline
         variant="filled"
-        value={searchInput}
+        value={filterValue}
         onChange={handleSearch}
       />
       <FormControl fullWidth>

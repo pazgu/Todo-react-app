@@ -59,28 +59,6 @@ function TodosPage() {
       }
     }
   
-    function editTodoItem(todoId, title) {
-      setEditTodoId(todoId);
-      setEditTodoTitle(title);
-    }
-  
-    async function saveTodoItem(todoId) {
-      try {
-        await axios.patch(`${url}/${todoId}`, {title: editTodoTitle}) 
-        const newTodos = todos.map((todo) => {
-          if (todo.id === todoId) {
-            return { ...todo, title: editTodoTitle };
-          }
-          return todo;
-        });
-        setTodos(newTodos);
-        setEditTodoId(null);
-        setEditTodoTitle("");
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  
     async function toggleIsComplete(todoId) {
       let currentTodo = null;
       try {
@@ -137,8 +115,6 @@ function TodosPage() {
                     editTodoTitle={editTodoTitle}
                     setEditTodoTitle={setEditTodoTitle}
                     removeTodoItem={removeTodoItem}
-                    editTodoItem={editTodoItem}
-                    saveTodoItem={saveTodoItem}
                     toggleIsComplete={toggleIsComplete}
                   />
                 )}

@@ -43,8 +43,8 @@ function AddTodoForm() {
             id: makeId(5),
             title: newTodoTitle,
             description: newTodoDescription,
+            isComplete: false,
             labels: newTodoLabels.split(","),
-            isComplete: false
           };
           setLoading(true);
           await axios.post("http://localhost:8001/todos", newTodo);

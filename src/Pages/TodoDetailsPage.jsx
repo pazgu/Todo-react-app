@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import Chip from '@mui/material/Chip';
 import axios from 'axios';
