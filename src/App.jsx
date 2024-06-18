@@ -7,6 +7,7 @@ import './index.css';
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar"
 import CreateTodoPage from './Pages/CreateTodoPage';
+import ModalAddTodo from './Pages/ModalAddTodo';
 
 function App() { 
   return (
@@ -17,7 +18,9 @@ function App() {
         <Route path="/todos">
         <Route index element={<TodosPage />} />
           <Route path=":todoId" element={<TodoDetailsPage />} />
-          <Route path="create" element={<CreateTodoPage />} />
+          <Route path="create" element={<ModalAddTodo />}>
+            <Route path="" element={<CreateTodoPage />} />
+          </Route>
         </Route>
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>

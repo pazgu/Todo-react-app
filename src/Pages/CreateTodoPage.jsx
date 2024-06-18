@@ -1,8 +1,8 @@
-
+import AddTodoForm from "../components/AddTodoForm"
 
 function CreateTodoPage() {
   return (
-    <div>CreateTodoPage</div>
+    <AddTodoForm/>
   )
 }
 

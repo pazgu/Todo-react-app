@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import AddTodoForm from '../components/AddTodoForm';
 import TodoStatistics from '../components/TodoStatistics';
 import axios from 'axios';
 import Filter from '../components/Filter';
 import Skeleton from '@mui/material/Skeleton';
 import Grid from '@mui/material/Grid';
 import TodoList from '../components/TodoList';
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+
 
 function TodosPage() {
     const [todos, setTodos] = useState([]);
@@ -14,13 +14,13 @@ function TodosPage() {
     const [editTodoId, setEditTodoId] = useState(null);
     const [editTodoTitle, setEditTodoTitle] = useState("");
   
-    useEffect(() => {
-      console.log("Hello");
-    }, []);
+    // useEffect(() => {
+    //   console.log("Hello");
+    // }, []);
   
-    useEffect(() => {
-      console.log(todos);
-    }, [todos]);
+    // useEffect(() => {
+    //   console.log(todos);
+    // }, [todos]);
   
     const url = "http://localhost:8001/todos";
   
@@ -99,6 +99,7 @@ function TodosPage() {
         console.error(error);
       }
     }
+   
   
     return (
       <>
@@ -125,14 +126,6 @@ function TodosPage() {
                 completedTodos={completedTodos}
                 activeTodos={activeTodos}
                 completionRate={completionRate}
-              />
-              <AddTodoForm 
-                todos={todos} 
-                setTodos={setTodos}
-                editTodoId={editTodoId}
-                setEditTodoId={setEditTodoId}
-                editTodoTitle={editTodoTitle}
-                setEditTodoTitle={setEditTodoTitle}
               />
               <Filter todos={todos}>
                 {filteredTodos => (

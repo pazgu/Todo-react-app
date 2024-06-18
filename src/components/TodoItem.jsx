@@ -61,15 +61,15 @@ function TodoItem(props) {
                   aria-controls="panel1-content"
                   id="panel1-header"
                 >
-                  <Link to=":id">
-                  <label htmlFor={props.id} className={props.isComplete ? "completed text-muted" : ""}>{props.title}</label>
-                  </Link>
+                <label htmlFor={props.id} className={props.isComplete ? "completed text-muted" : ""}>{props.title}</label>
                 </AccordionSummary>
                 <AccordionDetails>
                   {props.description}
-                  <Button variant="contained" size="medium" type="button" onClick={() => props.editTodoItem(props.id, props.title)}>
-                    Edit <EditIcon/>
-                  </Button>
+                  <Link to={`${props.id}`}>
+                    <Button variant="contained" size="medium" type="button" onClick={() => props.editTodoItem(props.id, props.title)}>
+                      Edit <EditIcon/>
+                    </Button>
+                  </Link>
                   <Button variant="outlined" color="error" type="button" onClick={handleDelete} >
                     Remove <DeleteIcon/>
                   </Button>

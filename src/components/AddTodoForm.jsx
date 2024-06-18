@@ -7,14 +7,22 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
-function AddTodoForm(props) {
+function AddTodoForm() {
     const [newTodoTitle, setNewTodoName] = useState("");
+    const [newTodoDescription, setNewTodoDescription] = useState("");
+    const [newTodoLabels, setNewTodoLabels] = useState("");
     const titleRef = useRef(null);
     const [loading, setLoading] = useState(false);
+    const navigateBack = useNavigate();
+
+    function goBack () {
+      navigateBack(-1);
+    }
 
     useEffect(() => {
-      titleRef.current.focus();
+      titleRef.current.querySelector('label').focus();
     }, [])
 
     function makeId(length) { 
@@ -28,26 +36,27 @@ function AddTodoForm(props) {
       } 
 
     async function createNewTodo (ev) {
+      if (newTodoTitle !== "" && newTodoDescription!== "" && newTodoLabels !== ""){
         ev.preventDefault();
         try {
           const newTodo = {
             id: makeId(5),
             title: newTodoTitle,
+            description: newTodoDescription,
+            labels: newTodoLabels.split(","),
             isComplete: false
           };
           setLoading(true);
           await axios.post("http://localhost:8001/todos", newTodo);
-          props.setTodos([...props.todos, newTodo]);
-          console.log(props.todos);
           setNewTodoName("");
+          setNewTodoDescription("");
+          setNewTodoLabels("");
+          goBack();
         } catch (error) {
           console.error(error)
-        }
-        finally {
-          titleRef.current.focus();
-          setLoading(false);
-        }
+        } 
       }
+    }
 
     return (
       <Box
@@ -59,29 +68,63 @@ function AddTodoForm(props) {
         mt: 2, 
       }}
     >
-      <Box component="form" onSubmit={createNewTodo} sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '50%' , marginBottom: '2rem'}}>
+      <Box component="form" onSubmit={createNewTodo}  sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          gap: 2, 
+          width: '50%', 
+          marginBottom: '2rem' ,
+          marginTop: '2rem',
+        }}>
         <TextField 
-          label="Add todo..."
+          label="Add todo title..."
           id="fullWidth"
           value={newTodoTitle} 
           onChange={(ev) => setNewTodoName(ev.target.value)} 
           placeholder="Add todo..."
           ref={titleRef}
           sx={{ flex: 1 }} 
+          fullWidth
+          required
         />
-      <Tooltip title="Add todo">
-        <span>
-          <Button
-            type="submit"
-            variant="contained"
-            color="success"
-            disabled={loading}
-            sx={{ height: '56px', minWidth: '56px' }}
-          >
-          {loading ? <CircularProgress /> : <AddIcon />}
-          </Button>
-        </span>
-      </Tooltip>
+        <TextField 
+          label="Add description..."
+          id="fullWidth"
+          value={newTodoDescription} 
+          onChange={(ev) => setNewTodoDescription(ev.target.value)} 
+          placeholder="Add todo..."
+          ref={titleRef}
+          sx={{ flex: 1 }} 
+          fullWidth
+          required
+        />
+          <TextField 
+          label="Add labels, please use comma..."
+          id="fullWidth"
+          value={newTodoLabels} 
+          onChange={(ev) => setNewTodoLabels(ev.target.value)} 
+          placeholder="Add todo..."
+          ref={titleRef}
+          sx={{ flex: 1 }}
+          fullWidth
+          required
+        />
+         <Tooltip title="Add todo">
+          <Box sx={{ width: '100%' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              disabled={loading}
+              sx={{ height: '56px' }}
+              fullWidth
+              required
+            >
+            {loading ? <CircularProgress size={24} /> : <AddIcon />}
+            </Button>
+          </Box>
+        </Tooltip>
       </Box>
     </Box>
     )
