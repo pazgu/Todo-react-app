@@ -19,7 +19,7 @@ function App() {
         <Route index element={<TodosPage />} />
           <Route path=":todoId" element={<TodoDetailsPage />} />
           <Route path="create" element={<ModalAddTodo />}>
-            <Route path="" element={<CreateTodoPage />} />
+            <Route index element={<CreateTodoPage />} />
           </Route>
         </Route>
         <Route path="/*" element={<NotFoundPage />} />
