@@ -103,7 +103,7 @@ function TodosPage() {
   
     return (
       <>
-        <Link to=":todoId">Todo Details</Link>
+        {/* <Link to=":todoId">Todo Details</Link> */}
         <br />
         <Link to="create">Create Todo</Link>
         <br />
