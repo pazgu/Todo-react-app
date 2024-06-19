@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo} from 'react';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,9 +16,9 @@ function Filter({ todos, children }) {
   const filterValue = searchParams.get('q') || '';
 
   
-  useEffect(() => {
-    setSearchParams({});
-  }, [])
+  // useEffect(() => {
+  //   setSearchParams({});
+  // }, [])
 
   const handleSearch = (event) => {
     setSearchParams({ q: event.target.value });

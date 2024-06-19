@@ -5,7 +5,7 @@ import Filter from '../components/Filter';
 import Skeleton from '@mui/material/Skeleton';
 import Grid from '@mui/material/Grid';
 import TodoList from '../components/TodoList';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 function TodosPage() {
@@ -13,6 +13,7 @@ function TodosPage() {
     const [loading, setLoading] = useState(true);
     const [editTodoId, setEditTodoId] = useState(null);
     const [editTodoTitle, setEditTodoTitle] = useState("");
+    const location = useLocation();
   
     // useEffect(() => {
     //   console.log("Hello");
@@ -36,7 +37,7 @@ function TodosPage() {
   
     useEffect(() => {
       getTodos()
-    }, [])
+    }, [location.pathname])
   
     //stats
     const totalTodos = todos.length;
